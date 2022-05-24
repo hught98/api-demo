@@ -19,3 +19,5 @@ database/test.sqlite
 _ide_helper.php
 _ide_helper_models.php
 .phpstorm.meta.php
+supervisord.log
+supervisord.pid
