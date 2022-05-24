@@ -1,0 +1,25 @@
+version: '3.6'
+
+services:
+  api-sale:
+    build:
+      context: .
+      dockerfile: docker/app/Dockerfile
+      args:
+        - PHP_VERSION=8.0
+    image: api-demo
+    container_name: api-demo
+    hostname: api-sales
+    restart: always
+    ports:
+      - "8088:80"
+    volumes:
+      - .:/var/www
+      - ./docker/supervisor/supervisord.conf:/etc/supervisord.conf
+    networks:
+      - app-network
+
+#Docker Networks
+networks:
+  app-network:
+    driver: bridge
