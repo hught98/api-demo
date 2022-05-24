@@ -1,0 +1,21 @@
+/vendor
+/.idea
+/.vscode
+/tmp/
+
+Homestead.json
+Homestead.yaml
+.env
+.env.testing
+.phpunit.result.cache
+/api-sales/values.yaml
+skaffold.yaml
+
+# database
+database/database.sqlite
+database/test.sqlite
+
+# ide helper
+_ide_helper.php
+_ide_helper_models.php
+.phpstorm.meta.php
