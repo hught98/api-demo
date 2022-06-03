@@ -1,15 +1,14 @@
 version: '3.6'
 
 services:
-  api-sale:
+  rebuild-laravel:
     build:
       context: .
       dockerfile: docker/app/Dockerfile
       args:
         - PHP_VERSION=8.0
-    image: api-demo
-    container_name: api-demo
-    hostname: api-sales
+    image: rebuild-laravel
+    hostname: rebuild-laravel
     restart: always
     ports:
       - "8088:80"
@@ -22,4 +21,5 @@ services:
 #Docker Networks
 networks:
   app-network:
+    name: docker-api
     driver: bridge
