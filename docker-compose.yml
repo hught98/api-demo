@@ -1,25 +1,37 @@
 version: '3.6'
 
 services:
-  rebuild-laravel:
+  api-demo:
     build:
       context: .
       dockerfile: docker/app/Dockerfile
       args:
         - PHP_VERSION=8.0
-    image: rebuild-laravel
-    hostname: rebuild-laravel
+    image: api-demo
+    hostname: api-demo
     restart: always
     ports:
       - "8088:80"
     volumes:
       - .:/var/www
       - ./docker/supervisor/supervisord.conf:/etc/supervisord.conf
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=${TRAEFIK_NETWORK}"
+      - "traefik.http.middlewares.api-demo-fwd-auth.forwardauth.address=http://api-auth/verify"
+      - "traefik.http.middlewares.api-demo-fwd-auth.forwardauth.trustForwardHeader=true"
+      - "traefik.http.middlewares.api-demo-fwd-auth.forwardauth.authResponseHeaders=X-Auth-Uuid,X-Auth-Permissions,X-Data-Account-Holder-Id"
+      - "traefik.http.routers.api-demo.middlewares=api-demo-fwd-auth"
+      - "traefik.http.routers.api-demo.rule=Host(`${API_DEMO_HOST}`)"
     networks:
       - app-network
+      - gateway
 
 #Docker Networks
 networks:
   app-network:
     name: docker-api
+    driver: bridge
+  gateway:
+    name: docker-gateway
     driver: bridge
