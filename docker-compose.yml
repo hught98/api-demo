@@ -18,20 +18,16 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=${TRAEFIK_NETWORK}"
-      - "traefik.http.middlewares.api-demo-fwd-auth.forwardauth.address=http://api-auth/verify"
-      - "traefik.http.middlewares.api-demo-fwd-auth.forwardauth.trustForwardHeader=true"
-      - "traefik.http.middlewares.api-demo-fwd-auth.forwardauth.authResponseHeaders=X-Auth-Uuid,X-Auth-Permissions,X-Data-Account-Holder-Id"
-      - "traefik.http.routers.api-demo.middlewares=api-demo-fwd-auth"
       - "traefik.http.routers.api-demo.rule=Host(`${API_DEMO_HOST}`)"
     networks:
-      - app-network
+      - backend
       - gateway
 
 #Docker Networks
 networks:
-  app-network:
-    name: docker-api
+  backend:
+    name: docker-demo-backend
     driver: bridge
   gateway:
-    name: docker-gateway
+    name: docker-demo-gateway
     driver: bridge
