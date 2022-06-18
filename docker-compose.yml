@@ -1,17 +1,17 @@
 version: '3.6'
 
 services:
-  api-demo:
+  bamboo-api:
     build:
       context: .
       dockerfile: docker/app/Dockerfile
       args:
         - PHP_VERSION=8.0
-    image: api-demo
-    hostname: api-demo
+    image: bamboo-api
+    hostname: bamboo-api
     restart: always
     ports:
-      - "8088:80"
+      - "${PUBLIC_PORT}:80"
     volumes:
       - .:/var/www
       - ./docker/supervisor/supervisord.conf:/etc/supervisord.conf
@@ -20,14 +20,14 @@ services:
       - "traefik.docker.network=${TRAEFIK_NETWORK}"
       - "traefik.http.routers.api-demo.rule=Host(`${API_DEMO_HOST}`)"
     networks:
-      - backend
-      - gateway
+      - public
+      - private
 
 #Docker Networks
 networks:
-  backend:
-    name: docker-demo-backend
+  private:
+    name: bamboo-private
     driver: bridge
-  gateway:
-    name: docker-demo-gateway
+  public:
+    name: bamboo-public
     driver: bridge
