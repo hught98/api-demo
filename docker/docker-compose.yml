@@ -1,10 +1,9 @@
-version: '3.6'
+version: '3.9'
 
 services:
   bamboo-api:
     build:
       context: .
-      dockerfile: docker/app/Dockerfile
       args:
         - PHP_VERSION=8.0
     image: bamboo-api
@@ -13,8 +12,8 @@ services:
     ports:
       - "${PUBLIC_PORT}:80"
     volumes:
-      - .:/var/www
-      - ./docker/supervisor/supervisord.conf:/etc/supervisord.conf
+      - ./:/var/www
+      - ./supervisor/supervisord.conf:/etc/supervisord.conf
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=${TRAEFIK_NETWORK}"
@@ -26,8 +25,8 @@ services:
 #Docker Networks
 networks:
   private:
-    name: bamboo-private
+    name: bamboo_private
     driver: bridge
   public:
-    name: bamboo-public
+    name: bamboo_public
     driver: bridge

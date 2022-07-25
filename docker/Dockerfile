@@ -72,15 +72,13 @@ RUN rm -Rf /etc/nginx/conf.d/*	\
 	&& rm -Rf /etc/nginx/sites-available/default \
 	&& rm -Rf /etc/nginx/sites-enabled/default
 
-COPY docker/nginx/server.conf	/etc/nginx/sites-enabled/default.conf
-
-COPY docker/supervisor/supervisord.conf /etc/supervisord.conf
-COPY docker/scripts/start.sh    /start.sh
+COPY ./nginx/server.conf	/etc/nginx/sites-enabled/default.conf
+COPY ./supervisor/supervisord.conf /etc/supervisord.conf
+COPY ./scripts/start.sh    /start.sh
 RUN  chmod +x /start.sh
 
-COPY .	/var/www
-RUN chmod -R 755 /var/www/storage/logs
-
+COPY ./	/var/www
+RUN chmod -R 755 /var/www
 WORKDIR /var/www
 
 # Port 9090 is used for the GRPC listening inside the container
